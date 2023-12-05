@@ -12,14 +12,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @SpringBootTest
 class SpringSocialApplicationTests {
 
-	@Test
-	void contextLoads() {
-		PasswordEncoder encoder = new BCryptPasswordEncoder(10);
-		String ecodedPass = encoder.encode("myPassword");
-		System.out.println("encoded password: " + ecodedPass);
-		assertTrue(encoder.matches("myPassword", ecodedPass));
-		
-		PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-	}
+    @Test
+    void contextLoads() {
+	PasswordEncoder encoder = new BCryptPasswordEncoder(10);
+	String ecodedPass = encoder.encode("myPassword");
+	System.out.println("encoded password: " + ecodedPass);
+	assertTrue(encoder.matches("myPassword", ecodedPass));
+
+	PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    }
 
 }
