@@ -1,12 +1,11 @@
 # FREE THE BRAIN 
----
+
 ## Table Of Contents
 - [Description](#description)
 - [Project Requirements](#project-requirements)
 - [Technologies In Used](#technologies-in-used)
 - [Reference Documentation](#reference-documentation)
 
----
 ### Description
 - Free the brain is an web application - stimulates the mobile math IQ game name [Math | Riddles and Puzzles](http://blackgames.co/). This project concentrates on building the server-side of the system, using main technologies Java programming language, framework with Spring, Spring Boot, Spring Security. 
 
@@ -30,7 +29,6 @@
 - Spring WebSocket
 - Docker
 
----
 ### Reference Documentation
 For further reference, please consider the following sections:
 
