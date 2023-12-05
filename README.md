@@ -1,16 +1,16 @@
 # FREE THE BRAIN 
 ---
 ## Table Of Contents
-- [Description](#^descript)
-- [Project Features](#^prj-fture)
-- [Technologies In Used](#^techs-stack)
-- [Preview](#^preview)
-- [Installation](#^install)
+- [Description](#description)
+- [Project Features](#project-features)
+- [Technologies In Used](#technologies-in-used)
+- [Preview](#preview)
+- [Installation](#installation)
 
 ---
-### Description ^descript
-### Project Features ^prj-fture
-### Technologies In Used ^techs-stack
-### Preview ^preview
-### Installation ^install
+### Description
+### Project Features
+### Technologies In Used
+### Preview
+### Installation
 
