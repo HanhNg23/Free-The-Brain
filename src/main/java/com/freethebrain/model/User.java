@@ -1,6 +1,11 @@
 package com.freethebrain.model;
 
+import java.time.LocalDateTime;
 import java.util.Date;
+
+import org.hibernate.annotations.UuidGenerator;
+import org.hibernate.annotations.UuidGenerator.Style;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,23 +14,32 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Builder
 @Data
 @Entity
-@Table(name = "users")
+@AllArgsConstructor
+@NoArgsConstructor
 public class User {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private Long id;
+	@Id
+	@UuidGenerator(
+			style = Style.RANDOM
+			)
+	@GeneratedValue(
+			strategy = GenerationType.UUID,
+			generator = "user_uuid"
+			)
+    private String id;
 
     @Column(nullable = false, unique = true)
     private String accountName;
@@ -36,8 +50,7 @@ public class User {
 
     private String imageUrl;
 
-    @Column(nullable = false)
-    private Boolean emailVerified = false;
+    private Boolean emailVerified;
 
     @JsonIgnore
     private String password;
@@ -49,12 +62,12 @@ public class User {
     @Enumerated(EnumType.STRING)
     private AuthProvider provider;
 
-    private String providerId;
+    private String providerId; //authorization token from OAuth2 Provider if have
 
     @Temporal(TemporalType.TIMESTAMP)
-    private Date lastModified;
+    private LocalDateTime lastModified;
 
     @Temporal(TemporalType.TIMESTAMP)
-    private Date dateCreated;
+    private LocalDateTime dateCreated;
 
 }

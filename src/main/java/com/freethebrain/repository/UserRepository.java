@@ -8,11 +8,8 @@ import org.springframework.stereotype.Repository;
 import com.freethebrain.model.User;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<User, String> {
 
     Optional<User> findByEmail(String email);
 
-    Boolean existsByEmail(String email);
-
-    Boolean existsByAccountName(String accountName);
 }

@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
-@Target({ ElementType.PARAMETER, ElementType.TYPE // for class and inteface
+@Target({ElementType.PARAMETER, ElementType.TYPE // for class and inteface
 })
 @Retention(RetentionPolicy.RUNTIME)
 //Runtime: Annotations are to be recorded in the class file
@@ -16,7 +16,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 //so they may be read reflectively.
 @Documented
 @AuthenticationPrincipal
-// Up Annotation is used to resolve Authentication.getPrincipal()
+//Up Annotation is used to resolve Authentication.getPrincipal()
 //to a methodargument.
 public @interface CurrentUser {
 

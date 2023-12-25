@@ -1,16 +1,16 @@
-package com.freethebrain.security.oauth2.user;
+package com.freethebrain.security.oauth2.userInfo;
 
 import java.util.Map;
 
-public class GoogleOAuth2User extends OAuth2UserInfo {
+public class GoogleOAuth2UserInfo extends OAuth2UserInfo {
 
-    public GoogleOAuth2User(Map<String, Object> attributes) {
-	super(attributes);
-    }
+	public GoogleOAuth2UserInfo(Map<String, Object> attributes) {
+		super(attributes);
+	}
 
     @Override
     public String getId() {
-	return (String) attributes.get("sub"); // using attributes property which locate in the OAuth2UserInfo Class
+	return (String) attributes.get("sub"); 
     }
 
     @Override

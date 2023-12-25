@@ -23,24 +23,24 @@ import jakarta.servlet.http.HttpServletResponse;
 	 added to the query string -
  */
 @Component
-public abstract class OAuth2AuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {
+public class OAuth2AuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 
-    @Autowired
-    HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository;
+	@Autowired
+	HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository;
 
-    @Override
-    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
-	    AuthenticationException exception) throws IOException, ServletException {
-	String targetUrl = CookieUtils
-		.getCookie(request, httpCookieOAuth2AuthorizationRequestRepository.REDIRECT_URI_PARAM_COOKIE_NAME)
-		.map(t -> t.getValue()) // or map(Cookie::getValue))
-		.orElse(("/"));
-	targetUrl = UriComponentsBuilder.fromUriString(targetUrl).queryParam("error", exception.getLocalizedMessage())
-		.build().toUriString();
+	@Override
+	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
+			AuthenticationException exception) throws IOException, ServletException {
+		String targetUrl = CookieUtils
+				.getCookie(request, httpCookieOAuth2AuthorizationRequestRepository.REDIRECT_URI_PARAM_COOKIE_NAME)
+				.map(t -> t.getValue()) // or map(Cookie::getValue))
+				.orElse(("/"));
+		targetUrl = UriComponentsBuilder.fromUriString(targetUrl).queryParam("error", exception.getLocalizedMessage())
+				.build().toUriString();
+		
+		httpCookieOAuth2AuthorizationRequestRepository.removeAuthorizationRequest(request, response);
 
-	httpCookieOAuth2AuthorizationRequestRepository.removeAuthorizationRequest(request, response);
-
-	getRedirectStrategy().sendRedirect(request, response, targetUrl);
-    }
+		getRedirectStrategy().sendRedirect(request, response, targetUrl);
+	}
 
 }

@@ -6,7 +6,24 @@ logging:
         
 server:
   port: 8080
-  
+ 
+openapi: 3.0.0
+info:
+  title: Sample API
+  version: 0.1.9
+servers:
+  - url: http://localhost:8080
+components:
+  securitySchemes:
+    bearerAuth:            # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
+      bearerFormat: JWT    # optional, arbitrary value for documentation purposes
+# 2) Apply the security globally to all operations
+security:
+  - bearerAuth: []  
+
+
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -16,41 +33,64 @@ spring:
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: none
       naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
     properties:
       hibernate:
         enable_lazy_load_no_trans: true
         format_sql: true
-        use_sql_comments: true
-        
+        use_sql_comments: true       
   security:
     oauth2:
       client:
         registration:
           google:
-            client-id: 991857807583-1q4d59iaeqha2tddv66pm8kv6apre5jb.apps.googleusercontent.com
-            client-secret: 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
-            redirectUri: "{baseUrl}/oauth2/redirect/{registrationId}"
-            scope:
-            - email
-            #- picture
-            #- fullName
-            #- idToken
-
+            client-name: Google
+            client-id: 121318969402-dmh5bjgko6qknbnk11iknt9ugsrd8kse.apps.googleusercontent.com
+            client-secret: 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
+            redirect-uri: "{baseUrl}/oauth2/callback/{registrationId}"  #can customize
+            scope: 
+              - email
+              - profile
+              #- openid
+      provider:
+          google:
+            authorization-uri: https://accounts.google.com/o/oauth2/v2/auth
+            token-uri: https://www.googleapis.com/oauth2/v4/token
+            jwk-set-uri: https://www.googleapis.com/oauth2/v3/certs
+            issuer-uri: https://accounts.google.com 
+            user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
+            user-name-attribute: sub 
+               
+          
 app:
   auth:
     tokenSecret: 04ca023b39512e46d0c2cf4b48d5aac61d34302994c87ed4eff225dcf3b0a218739f3897051a057f9b846a69ea2927a587044164b7bae5e1306219d50b588cb1
-    #accessToken: 2 minutes
-    accessTokenExpirationMsec: 120000 
-    #refreshToken: 15 minutes
+    # accessToken: 2 minutes 10*60*1000
+    accessTokenName: access_token
+    accessTokenExpirationMsec: 600000 
+    # refreshToken: 15 minutes
+    refreshTokenName: refresh_token
     refreshTokenExpirationMsec: 900000
   cors:
-    allowedOrigins: http://localhost:8080 
+    # The origin path for later config CORS in WebMvcConfig class
+    # that allow the request come from different domain origin http://localhost:3000
+    # can access the resouce from your web app which has domain http://localhost:8080
+    allowedOrigins: 
+    - http://localhost:3000
   oauth2:
-    # After successfully authenticating with the OAuth2 Provider,
-    # we'll be generating an auth token for the user and sending the token to the
-    # redirectUri mentioned by the client in the /oauth2/authorize request.
-    # We're not using cookies because they won't work well in mobile clients.
-    authorizedRedirectUris:
-      - http://localhost:8080/oauth2/redirect	
+    # After successfully authenticating with OAuth2 Provider 
+    # we will be generating an auth token (acctually this is kind of authorization
+    # code grandtype get from authorization server)
+    # for the user and sending the token to the
+    # redirectUri metioned by the client in the "/oauth2/authorize" request for
+    # get access to the authorization server or resource of its
+    # We' re not using cookies because they wont work well in mobilde clients
+    authorizedRedirectUris: 
+    - http://localhost:3000/oauth2/redirect
+    - http://localhost:8080/oauth2/redirect
+    - myandroidapp://oauth2/redirect
+    - myiosapp://oauth2/redirect
+                           
+                            
+                            

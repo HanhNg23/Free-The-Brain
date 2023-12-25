@@ -1,5 +1,7 @@
 package com.freethebrain.model;
 
 public enum Role {
-    PLAYER, MENTOR, ADMIN
+    PLAYER,
+    MENTOR,
+    ADMIN
 }

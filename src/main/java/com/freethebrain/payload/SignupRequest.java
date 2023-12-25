@@ -2,15 +2,13 @@ package com.freethebrain.payload;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Builder;
 import lombok.Data;
 
 @Data
-@Builder
 public class SignupRequest {
 
     @NotBlank
-    private String name;
+    private String accoutName;
 
     @NotBlank
     @Email
@@ -18,5 +16,12 @@ public class SignupRequest {
 
     @NotBlank
     private String password;
+    
+    public SignupRequest (String accountName, String email, String password) {
+    	super();
+    	this.accoutName = accountName;
+    	this.email = email;
+    	this.password = password;
+    }
 
 }
