@@ -57,8 +57,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 		clearAuthenticationAttributes(request);
 
 		// Success authentication the redirect back to the resource that user request.
-		//getRedirectStrategy().sendRedirect(request, response, targetUrl); 
-		getRedirectStrategy().sendRedirect(request, response, "/small/home");
+		getRedirectStrategy().sendRedirect(request, response, targetUrl); 
     }
 
     //REDIRECT user to the "redirect_uri" specified by the client
@@ -73,13 +72,18 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 					"Sorry! We've got an Unauthorized Redirect URI and can't" + " proceed with the authentication");
 		}
 
-		String targetUrl = redirectUri.orElse(getDefaultTargetUrl());
+		String targetUrl = redirectUri.orElse("/home");
 		String accessToken = jwtProvider.createAccessToken(authentication);
 		String refreshTokn = jwtProvider.createRefresfToken(authentication);
+		
+		CookieUtils.deleteCookie(request, response, appProperties.getAuth().getAccessTokenName());
+		CookieUtils.deleteCookie(request, response, appProperties.getAuth().getRefreshTokenName());
+		CookieUtils.addCookie(response, appProperties.getAuth().getAccessTokenName(), accessToken, Integer.parseInt(String.valueOf(appProperties.getAuth().getAccessTokenExpirationMsec())));
+		CookieUtils.addCookie(response, appProperties.getAuth().getAccessTokenName(), refreshTokn, Integer.parseInt(String.valueOf(appProperties.getAuth().getRefreshTokenExpirationMsec())));
 
 		return UriComponentsBuilder.fromUriString(targetUrl)
-				.queryParam("accessToken", accessToken)//Append the given query parameter
-				.queryParam("refreshToken", refreshTokn)
+//				.queryParam("accessToken", accessToken)//Append the given query parameter
+//				.queryParam("refreshToken", refreshTokn)
 				.build()
 				.toUriString();
 
